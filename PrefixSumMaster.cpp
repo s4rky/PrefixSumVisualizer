@@ -1,3 +1,11 @@
+/**
+ * Engine for the Prefix Sum Visualizer.
+ * This class is responsible for building prefix sum structures for 1D, 2D, and 3D arrays,
+ * as well as providing methods to query sums of subarrays, submatrices, and subcubes.
+ * @author Aaron Sarkar
+ * @version 1.0
+ */
+
 #include <iostream>
 #include <vector>
 #include <unordered_map>
