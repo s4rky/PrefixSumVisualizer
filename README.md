@@ -13,7 +13,7 @@ PrefixSumMaster :)
 ### Background (and reason for why I did this):
 
 The prefix sum algo always kinda bugged me. The most annoying aspect of it was the unintuitiveness of it. Because it was a weakness is my 
-logical thinking that I wanted to address, I decided to dedicate weeks to understanding them as deeply as I could. What it is, how it works,
+logical thinking that I wanted to address, I decided to dedicate weeks to understanding it as deeply as I could. What it is, how it works,
 what is the intuition beging it etc.
 
 ### What even is a Prefix Sum?
