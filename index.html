@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prefix Sum Visualizer</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0f0f0f; overflow: hidden; font-family: monospace; }
+    canvas { display: block; }
+
+    #panel {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        bottom: 16px;
+        width: 320px;
+        color: #ffffff;
+        font-size: 12.5px;
+        z-index: 10;
+        background: rgba(20, 20, 20, 0.88);
+        border: 1px solid #2a2a2a;
+        border-radius: 10px;
+        padding: 14px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    #panel h2 { font-size: 14px; color: #5DCAA5; }
+    #panel section { display: flex; flex-direction: column; gap: 6px; }
+    #panel label { color: #9ca3af; }
+    .row { display: flex; gap: 6px; align-items: center; }
+    .row label { flex: 1; }
+
+    .seg {
+        display: flex;
+        border: 1px solid #333;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .seg button {
+        flex: 1;
+        background: #1a1a1a;
+        color: #aaa;
+        border: none;
+        padding: 7px 0;
+        cursor: pointer;
+        font-family: monospace;
+        font-size: 12.5px;
+        border-right: 1px solid #333;
+    }
+    .seg button:last-child { border-right: none; }
+    .seg button.active { background: #1d9e75; color: #fff; }
+
+    input[type="number"], select {
+        background: #1a1a1a;
+        color: #ffffff;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-family: monospace;
+        font-size: 12px;
+        width: 100%;
+    }
+
+    #dataGrid {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 260px;
+        overflow: auto;
+        padding: 6px;
+        background: #141414;
+        border: 1px solid #2a2a2a;
+        border-radius: 6px;
+    }
+    .layerLabel { color: #5DCAA5; font-size: 11px; margin-top: 4px; }
+    .gridRow { display: flex; gap: 4px; }
+    .gridRow input {
+        width: 36px;
+        text-align: center;
+        padding: 4px 2px;
+        flex: none;
+    }
+
+    button.action {
+        background: #1d9e75;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        padding: 9px;
+        font-family: monospace;
+        font-size: 13px;
+        cursor: pointer;
+        width: 100%;
+    }
+    button.action:hover { background: #0f6e56; }
+    button.secondary {
+        background: #1a1a1a;
+        color: #ddd;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 7px;
+        font-family: monospace;
+        font-size: 12px;
+        cursor: pointer;
+        width: 100%;
+    }
+    button.secondary:hover { background: #242424; }
+
+    #result {
+        color: #5DCAA5;
+        min-height: 18px;
+        white-space: pre-wrap;
+        line-height: 1.4;
+    }
+    #stepInfo {
+        color: #d9d9d9;
+        min-height: 32px;
+        font-size: 11.5px;
+        line-height: 1.4;
+    }
+
+    #tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: rgba(20,20,20,0.95);
+        border: 1px solid #5DCAA5;
+        color: #fff;
+        padding: 6px 9px;
+        border-radius: 6px;
+        font-family: monospace;
+        font-size: 12px;
+        z-index: 20;
+        display: none;
+        white-space: pre;
+    }
+
+    #hint {
+        position: absolute;
+        bottom: 14px;
+        right: 18px;
+        color: #6b7280;
+        font-family: monospace;
+        font-size: 11px;
+        z-index: 10;
+    }
+</style>
+</head>
+<body>
+
+<div id="panel">
+    <h2>Prefix Sum Visualizer</h2>
+
+    <section>
+        <label>dimension</label>
+        <div class="seg" id="dimSeg">
+            <button data-dim="1" class="active">1D array</button>
+            <button data-dim="2">2D matrix</button>
+            <button data-dim="3">3D cube</button>
+        </div>
+    </section>
+
+    <section id="sizeSection">
+        <label>shape</label>
+        <div class="row" id="sizeInputs"></div>
+        <button class="secondary" id="generateBtn">generate empty data grid</button>
+        <button class="secondary" id="randomizeBtn">fill with random values</button>
+    </section>
+
+    <section>
+        <label>data (click a cell to edit)</label>
+        <div id="dataGrid"></div>
+    </section>
+
+    <section>
+        <label>query mode</label>
+        <div class="seg" id="modeSeg">
+            <button data-mode="target" class="active">count subregions = target</button>
+            <button data-mode="range">sum of a range</button>
+        </div>
+    </section>
+
+    <section id="modeInputs"></section>
+
+    <section>
+        <button class="action" id="runBtn">build prefix sums + run</button>
+        <button class="secondary" id="animateBtn">animate prefix-sum build</button>
+    </section>
+
+    <div id="result"></div>
+    <div id="stepInfo"></div>
+</div>
+
+<div id="tooltip"></div>
+<div id="hint">drag to orbit · scroll to zoom · click a cell for details</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="PrefixSumMaster.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
