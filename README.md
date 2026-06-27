@@ -312,7 +312,7 @@ Fix all but one dimension. Reduce to 1D. Run the hashmap. Reset between search s
 
 Once you see that, the 3D version isn't harder conceptually. It's just more corners to track.
 
-I hope you enjoyed the read, and thank you to whoever sees this!
+I hope you enjoyed the read, and thank you to whoever sees this and read this all the way through. You a real one!
 
 
 
