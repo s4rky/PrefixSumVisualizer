@@ -5,6 +5,9 @@ My name is Aaron and this is my first REAL portfolio project. I wanna spend some
 of the Prefix Sum algorithm. I'm not sure who will ever read this or check it out. But if you are a reader not named Aaron Sarkar, welcome to
 PrefixSumMaster :)
 
+<img width="3024" height="1700" alt="image" src="https://github.com/user-attachments/assets/fe24c33a-69f3-4dd6-ab7c-d53a2589723a" />
+
+
 ---
 
 ### Background (and reason for why I did this):
