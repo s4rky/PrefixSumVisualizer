@@ -5,6 +5,8 @@ My name is Aaron and this is my first REAL portfolio project. I wanna spend some
 of the Prefix Sum algorithm. I'm not sure who will ever read this or check it out. But if you are a reader not named Aaron Sarkar, welcome to
 PrefixSumMaster :)
 
+---
+
 ### Background (and reason for why I did this):
 
 The prefix sum algo always kinda bugged me. The most annoying aspect of it was the unintuitiveness of it. Because it was a weakness is my 
@@ -57,6 +59,8 @@ If yes, then there's a subarray ending at r that sums to exactly k. You find it 
 That jump from the naive O(n²) brute force to an O(n) solution is what made me fall in love with this pattern. It's the kind of thing 
 that feels like a magic trick the first time you see it, and feels completely obvious the 10th time. But of course, to get to that 10th time 
 required me to step it up a little...
+
+---
 
 ### Extending to 2D
 
@@ -167,6 +171,7 @@ Which mirrors the 1D derivation exactly:
 2D:   colSum(c) - k  ?=  colSum seen before in this band
 ```
 
+---
 
 ### Going 3D 
 To quote the late, great Kobe Bryant, he once said, "May you always remember to enjoy the road, especially when it's a hard one." 
@@ -239,8 +244,6 @@ int offset          = P[layer-1][row-1][col-1];
 P[layer][row][col]  = termsToAdd - termsToSubtract + offset;
 ```
 
----
-
 ### The Query Formula — 8-Corner Inclusion-Exclusion
 
 Querying a subcube between `(backLayer, row1, col1)` and `(frontLayer, row2, col2)`
@@ -297,7 +300,7 @@ You're fixing two dimensions, reducing the search space to a 1D column scan. The
 The complexity is O(D² · R² · C) which is quadratic over both the depth and row dimensions, linear over columns. 
 Each new dimension you fix adds another nested pair of loops.
 
-
+---
 
 ### What This Proved To Me
 
